@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const maxPages = 10;
-const gistItems = [];
+const maxPages: number = 10;
+const gistItems: any[] = [];
 
 const fetchGistItems = async () => {
     for(var i=1; i<maxPages; i++){
-        const paramsString = `page=${i}`;
+        const paramsString: string = `page=${i}`;
         const qParams = new URLSearchParams(paramsString);
         const gistJson = await fetch(`https://api.github.com/users/oYuYo/gists?${qParams}`, {
             method: "GET",
