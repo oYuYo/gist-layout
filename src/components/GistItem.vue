@@ -10,7 +10,7 @@ const fetchGistItems = async () => {
             method: "GET",
             headers: { 
                 Accept: "application/vnd.github+json",
-                Authorization: "Bearer: import.meta.env.GH_TOKEN",
+                Authorization: `Bearer: ${import.meta.env.VITE_GH_TOKEN}`,
                 "X-GitHub-Api-Version": "2022-11-28"
             }
         })
