@@ -1,6 +1,27 @@
 <script setup lang="ts">
-import Header from './components/Header.vue'
+import Header from './components/PageHeader.vue'
 import GistItem from './components/GistItem.vue'
+
+import { ref, onMounted,onUnmounted } from 'vue';
+const keyword = ref('');
+
+const SetKeyword = (e: KeyboardEvent) => {
+  if (e.key === 'Enter') {
+    var el = document.querySelector('input[name="search"]') as HTMLInputElement;
+    if (el) {
+      keyword.value = el.value.trim();
+      if (keyword.value) {
+        console.log(`Searching for: ${keyword.value}`);
+      }
+    }
+  }
+}
+onMounted(() => {
+  addEventListener('keydown', SetKeyword);
+});
+onUnmounted(() => {
+  removeEventListener('keydown', SetKeyword);
+})
 </script>
 
 <template>
@@ -8,12 +29,13 @@ import GistItem from './components/GistItem.vue'
 
   <main>
     <div class="wrapper">
-      <div class="head">
+      <div class="head search">
         <h1>Gist Items</h1>
+        <input type="search" name="search" placeholder="キーワードを入力" />
       </div>
       <Suspense>
         <template #default>
-          <GistItem />
+          <GistItem :keyword="keyword"/>
         </template>
         <template #fallback>
           Loading...
@@ -35,7 +57,19 @@ main {
   margin: 0 auto;
 }
 div.head {
-  border-bottom: 1px solid #cccccc;  
+  border-bottom: 1px solid #cccccc;
+  overflow-wrap: break-word;
+}
+div.search {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+div.search input {
+  padding: 0.5rem;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  width: 250px;
 }
 /*
 @media (min-width: 1024px) {
